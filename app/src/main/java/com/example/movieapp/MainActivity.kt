@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieapp.databinding.ActivityMainBinding
-import com.example.movieapp.ui.MovieDetailsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

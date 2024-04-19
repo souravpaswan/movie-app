@@ -1,5 +1,6 @@
 package com.example.movieapp.retrofit
 
+import com.example.movieapp.model.CreditDetails
 import com.example.movieapp.model.GenreResponse
 import com.example.movieapp.model.MovieDetails
 import com.example.movieapp.model.MovieList
@@ -19,4 +20,7 @@ interface RetrofitService {
 
     @GET(APIConstants.MOVIE_DETAILS)
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int, @Query("api_key")apiKey: String): Response<MovieDetails>
+
+    @GET(APIConstants.MOVIE_CREDITS)
+    suspend fun getMovieCredits(@Path("movie_id") movieId: Int, @Query("api_key")apiKey: String): Response<CreditDetails>
 }

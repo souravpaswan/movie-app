@@ -6,4 +6,6 @@ object APIConstants {
     const val POPULAR_MOVIES = "movie/popular"
     const val GENRE_MOVIE_LIST = "genre/movie/list"
     const val MOVIE_DETAILS = "movie/{movie_id}"
+    const val IMAGE_PATH = "https://image.tmdb.org/t/p/w500"
+    const val MOVIE_CREDITS = "movie/{movie_id}/credits"
 }

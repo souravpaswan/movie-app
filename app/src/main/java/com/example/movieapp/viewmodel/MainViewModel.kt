@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.movieapp.model.GenreResponse
 import com.example.movieapp.model.MovieList
 import com.example.movieapp.data.MovieRepository
+import com.example.movieapp.model.CreditDetails
 import com.example.movieapp.model.MovieDetails
 
 class MainViewModel(private val repository: MovieRepository) : ViewModel() {
@@ -21,6 +22,9 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val _movieDetails = MutableLiveData<MovieDetails>()
     val movieDetails: LiveData<MovieDetails> get() = _movieDetails
+
+    private val _creditDetails = MutableLiveData<CreditDetails>()
+    val creditDetails: LiveData<CreditDetails> get() = _creditDetails
 
     suspend fun getPopularMovies(apiKey: String) {
         val response = repository.getPopularMovies(apiKey)
@@ -53,6 +57,18 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
             response.body()?.let {
                 _movieDetails.postValue(it)
                 Log.i("Retrofit", "Movie details body = $it")
+            }
+        } else{
+            Log.i("Retrofit", "Error : ${response.errorBody()}")
+        }
+    }
+
+    suspend fun getMovieCredits(movieId: Int, apiKey: String){
+        val response = repository.getMovieCredits(movieId, apiKey)
+        if(response.isSuccessful){
+            response.body()?.let {
+                _creditDetails.postValue(it)
+                Log.i("Retrofit", "Credit details = $it")
             }
         } else{
             Log.i("Retrofit", "Error : ${response.errorBody()}")

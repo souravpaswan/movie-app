@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.model.Movie
+import com.example.movieapp.utils.APIConstants
 
 class MoviesListRVAdapter(
     private val movies: List<Movie>,
@@ -46,7 +47,7 @@ class MoviesListRVAdapter(
             holder.movieRatingTextView.text = movies[position].vote_average.toString().substring(0,3)
             val genres = movieListRVAdapterClickListener.fetchGenre(movies[position].genre_ids)
             holder.movieGenreTextView.text = genres
-            val imageUrl = "https://image.tmdb.org/t/p/w500${movies[position].poster_path}"
+            val imageUrl = APIConstants.IMAGE_PATH + movies[position].poster_path
             Glide.with(holder.moviePosterImageView)
                 .load(imageUrl)
                 .into(holder.moviePosterImageView)

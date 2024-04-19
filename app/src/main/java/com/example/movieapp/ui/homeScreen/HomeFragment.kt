@@ -34,8 +34,7 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         val repository = MovieRepository()
         val viewModelFactory = MainViewModelFactory(repository)
-        mainViewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-
+        mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[MainViewModel::class.java]
         return binding.root
     }
 
@@ -61,13 +60,12 @@ class HomeFragment : Fragment() {
                             }
 
                             override fun movieOnClickListener(movieId: Int) {
+                                Log.i("Retrofit", "Movie id variable $movieId")
                                 mainViewModel.currentMovieId.value = movieId
+                                Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
                                 findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
-//                                val intent = Intent(requireContext(), MovieDetailsActivity::class.java)
-//                                startActivity(intent)
                             }
                         })
-                    Log.i("Retrofit", "HomeFragment if body = ${it.results}")
                     binding.progressBar.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE

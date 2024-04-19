@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieapp.model.GenreResponse
-import com.example.movieapp.model.MovieDetails
 import com.example.movieapp.model.MovieList
 import com.example.movieapp.data.MovieRepository
+import com.example.movieapp.model.MovieDetails
 
 class MainViewModel(private val repository: MovieRepository) : ViewModel() {
 

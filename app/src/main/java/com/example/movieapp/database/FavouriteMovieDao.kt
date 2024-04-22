@@ -19,4 +19,7 @@ interface FavouriteMovieDao {
 
     @Query("SELECT * FROM favourite_movies_table")
     fun getAllFavouriteMovies(): LiveData<List<FavouriteMovie>>
+
+    @Query("SELECT * FROM favourite_movies_table WHERE movie_id = :movieId LIMIT 1")
+    suspend fun getMovieById(movieId: Int): FavouriteMovie?
 }

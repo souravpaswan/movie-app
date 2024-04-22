@@ -40,8 +40,8 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.progressBar2.visibility = View.VISIBLE
+        super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             mainViewModel.getMovieDetails(mainViewModel.currentMovieId.value ?: 0, APIConstants.API_KEY)
         }
@@ -54,7 +54,6 @@ class MovieDetailsFragment : Fragment() {
                 Log.i("Retrofit", "Image url = $imageUrl")
             }
         })
-        binding.progressBar2.visibility = View.GONE
         getCastDetails()
         getVideoDetails()
     }
@@ -71,6 +70,7 @@ class MovieDetailsFragment : Fragment() {
                 }
             })
         }
+        binding.progressBar2.visibility = View.GONE
     }
 
     private fun getVideoDetails() {

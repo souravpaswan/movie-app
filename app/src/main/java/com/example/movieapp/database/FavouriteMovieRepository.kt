@@ -8,6 +8,10 @@ class FavouriteMovieRepository(private val dao: FavouriteMovieDao) {
         dao.insertFavouriteMovie(favouriteMovie)
     }
 
+    suspend fun getMovieById(movieId: Int): FavouriteMovie? {
+        return dao.getMovieById(movieId)
+    }
+
     fun delete(favouriteMovie: FavouriteMovie){
         dao.deleteFavouriteMovie(favouriteMovie)
     }

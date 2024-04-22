@@ -17,7 +17,11 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentHomeBinding
 import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.database.FavouriteMovie
+import com.example.movieapp.database.FavouriteMovieDao
+import com.example.movieapp.database.FavouriteMovieDb
+import com.example.movieapp.database.FavouriteMovieRepository
 import com.example.movieapp.ui.favouritesScreen.FavouriteMovieViewModel
+import com.example.movieapp.ui.favouritesScreen.FavouriteMovieViewModelFactory
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
 import com.example.movieapp.viewmodel.MainViewModelFactory
@@ -39,8 +43,10 @@ class HomeFragment : Fragment() {
         val viewModelFactory = MainViewModelFactory(repository)
         mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[MainViewModel::class.java]
 
-
-        favouriteMovieViewModel = ViewModelProvider(this)[FavouriteMovieViewModel::class.java]
+        val dao = FavouriteMovieDb.getInstance(requireActivity()).favouriteMovieDao
+        val favRepository = FavouriteMovieRepository(dao)
+        val factory = FavouriteMovieViewModelFactory(favRepository)
+        favouriteMovieViewModel = ViewModelProvider(requireActivity(), factory)[FavouriteMovieViewModel::class.java]
 
         return binding.root
     }
@@ -78,8 +84,12 @@ class HomeFragment : Fragment() {
                                 lifecycleScope.launch {
                                     mainViewModel.getMovieDetails(movieId, APIConstants.API_KEY)
                                 }
-                                val favouriteMovie = FavouriteMovie(movieId, mainViewModel.movieDetails.value!!.title, mainViewModel.movieDetails.value!!.release_date)
-                                favouriteMovieViewModel.insert(favouriteMovie)
+                                mainViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movieDetails ->
+                                    movieDetails?.let {
+                                        val favouriteMovie = FavouriteMovie(movieId, it.title, it.release_date)
+                                        favouriteMovieViewModel.insert(favouriteMovie)
+                                    }
+                                })
                             }
                         })
                     binding.progressBar.visibility = View.GONE

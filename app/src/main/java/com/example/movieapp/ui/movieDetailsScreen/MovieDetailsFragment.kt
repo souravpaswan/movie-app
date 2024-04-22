@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -55,6 +56,7 @@ class MovieDetailsFragment : Fragment() {
         })
         binding.progressBar2.visibility = View.GONE
         getCastDetails()
+        getVideoDetails()
     }
 
     fun getCastDetails(){
@@ -67,6 +69,23 @@ class MovieDetailsFragment : Fragment() {
 
                     binding.castMembersRecyclerView.adapter = MovieCastRVAdapter(it.cast)
                 }
+            })
+        }
+    }
+
+    private fun getVideoDetails() {
+        var trailerPath =""
+        lifecycleScope.launch {
+            mainViewModel.getVideoDetails(mainViewModel.currentMovieId.value!!, APIConstants.API_KEY)
+            mainViewModel.videoDetails.observe(viewLifecycleOwner, Observer {
+                for(i in 0..it.results.size){
+                    if(it.results[i].type.equals("Trailer", ignoreCase = true) ||
+                        it.results[i].type.equals("Teaser", ignoreCase = true)){
+                        trailerPath += it.results[i].key
+                        break
+                    }
+                }
+                Log.i("Retrofit", "Video key $trailerPath")
             })
         }
     }

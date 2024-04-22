@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentHomeBinding
 import com.example.movieapp.data.MovieRepository
+import com.example.movieapp.database.FavouriteMovie
+import com.example.movieapp.ui.favouritesScreen.FavouriteMovieViewModel
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
 import com.example.movieapp.viewmodel.MainViewModelFactory
@@ -25,6 +27,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var favouriteMovieViewModel: FavouriteMovieViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +38,10 @@ class HomeFragment : Fragment() {
         val repository = MovieRepository()
         val viewModelFactory = MainViewModelFactory(repository)
         mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[MainViewModel::class.java]
+
+
+        favouriteMovieViewModel = ViewModelProvider(this)[FavouriteMovieViewModel::class.java]
+
         return binding.root
     }
 
@@ -64,6 +71,15 @@ class HomeFragment : Fragment() {
                                 mainViewModel.currentMovieId.value = movieId
                                 Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
                                 findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
+                            }
+
+                            override fun addToFavouriteOnClickListener(movieId: Int) {
+                                mainViewModel.currentMovieId.value = movieId
+                                lifecycleScope.launch {
+                                    mainViewModel.getMovieDetails(movieId, APIConstants.API_KEY)
+                                }
+                                val favouriteMovie = FavouriteMovie(movieId, mainViewModel.movieDetails.value!!.title, mainViewModel.movieDetails.value!!.release_date)
+                                favouriteMovieViewModel.insert(favouriteMovie)
                             }
                         })
                     binding.progressBar.visibility = View.GONE

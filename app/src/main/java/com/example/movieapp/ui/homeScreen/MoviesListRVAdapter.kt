@@ -16,19 +16,23 @@ class MoviesListRVAdapter(
     private val movies: List<Movie>,
     private val movieListRVAdapterClickListener: MovieListRVAdapterClickListener
 ) :
-    RecyclerView.Adapter<MoviesListRVAdapter.MovieViewHolder>(){
+    RecyclerView.Adapter<MoviesListRVAdapter.MovieViewHolder>() {
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val movieTitleTextView: TextView = itemView.findViewById(R.id.movieTitleTextView)
         val moviePosterImageView: ImageView = itemView.findViewById(R.id.moviePosterImageView)
-        val movieReleaseDateTextView: TextView = itemView.findViewById(R.id.movieReleaseDateTextView)
+        val movieReleaseDateTextView: TextView =
+            itemView.findViewById(R.id.movieReleaseDateTextView)
         val movieRatingTextView: TextView = itemView.findViewById(R.id.movieRatingTextView)
         val movieGenreTextView: TextView = itemView.findViewById(R.id.movieGenreTextView)
+        val addToFavouritesImageView: ImageView =
+            itemView.findViewById(R.id.addToFavouritesImageView)
     }
 
-    interface MovieListRVAdapterClickListener{
-        fun fetchGenre(genreIds: List<Int>) : String
-        fun movieOnClickListener(movieId : Int)
+    interface MovieListRVAdapterClickListener {
+        fun fetchGenre(genreIds: List<Int>): String
+        fun movieOnClickListener(movieId: Int)
+        fun addToFavouriteOnClickListener(movieId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -41,10 +45,11 @@ class MoviesListRVAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        if(!movies.isNullOrEmpty()){
+        if (!movies.isNullOrEmpty()) {
             holder.movieTitleTextView.text = movies[position].title
             holder.movieReleaseDateTextView.text = movies[position].release_date
-            holder.movieRatingTextView.text = movies[position].vote_average.toString().substring(0,3)
+            holder.movieRatingTextView.text =
+                movies[position].vote_average.toString().substring(0, 3)
             val genres = movieListRVAdapterClickListener.fetchGenre(movies[position].genre_ids)
             holder.movieGenreTextView.text = genres
             val imageUrl = APIConstants.IMAGE_PATH + movies[position].poster_path
@@ -54,7 +59,10 @@ class MoviesListRVAdapter(
             holder.moviePosterImageView.setOnClickListener {
                 movieListRVAdapterClickListener.movieOnClickListener(movies[position].id)
             }
-        } else{
+            holder.addToFavouritesImageView.setOnClickListener {
+                movieListRVAdapterClickListener.addToFavouriteOnClickListener(movies[position].id)
+            }
+        } else {
             Toast.makeText(holder.itemView.context, "No movies found", Toast.LENGTH_SHORT).show()
         }
     }

@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_favourites"
-        android:name="com.example.movieapp.ui.FavouritesFragment"
+        android:name="com.example.movieapp.ui.favouritesScreen.FavouritesFragment"
         android:label="fragment_favourites"
         tools:layout="@layout/fragment_favourites" />
     <fragment

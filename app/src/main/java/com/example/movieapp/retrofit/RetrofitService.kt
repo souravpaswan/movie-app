@@ -4,6 +4,7 @@ import com.example.movieapp.model.CreditDetails
 import com.example.movieapp.model.GenreResponse
 import com.example.movieapp.model.MovieDetails
 import com.example.movieapp.model.MovieList
+import com.example.movieapp.model.VideoDetails
 import com.example.movieapp.utils.APIConstants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -23,4 +24,7 @@ interface RetrofitService {
 
     @GET(APIConstants.MOVIE_CREDITS)
     suspend fun getMovieCredits(@Path("movie_id") movieId: Int, @Query("api_key")apiKey: String): Response<CreditDetails>
+
+    @GET(APIConstants.VIDEO_DETAILS)
+    suspend fun getVideoDetails(@Path("movie_id") movieId: Int, @Query("api_key")apiKey: String): Response<VideoDetails>
 }

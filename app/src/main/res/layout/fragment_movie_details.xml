@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="Release Date"
+                    android:text="@{myViewModel.movieDetails.release_date}"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="Genres}"
+                    android:text="Genres"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -157,75 +157,3 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/movieDetailsPosterImageView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="4dp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.498"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linearLayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/yellow_background"-->
-    <!--android:orientation="vertical"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent">-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/movieDetailsTitleTextView"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text="@{myViewModel.movieDetails.original_title}"-->
-    <!--    android:textColor="@color/black"-->
-    <!--    android:textSize="24sp"-->
-    <!--    android:textStyle="bold" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/movieDetailsReleaseDateTextView"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text='@{"Release - " + myViewModel.movieDetails.release_date}'-->
-    <!--    android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/movieDetailsRatingTextView"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text="Rating"-->
-    <!--    android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/movieDetailsGenreTextView"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text="Genre"-->
-    <!--    android:textSize="18sp" />-->
-
-    <!--<TextView-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text="Summary"-->
-    <!--    android:textColor="@color/black"-->
-    <!--    android:textSize="18sp"-->
-    <!--    android:textStyle="bold" />-->
-
-    <!--<TextView-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="10dp"-->
-    <!--    android:text="@{myViewModel.movieDetails.overview}"-->
-    <!--    android:textColor="@color/black"-->
-    <!--    android:textSize="18sp" />-->

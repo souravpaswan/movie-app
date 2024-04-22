@@ -14,4 +14,6 @@ class MovieRepository {
     suspend fun getMovieDetails(movieId: Int, apiKey: String) = retrofitService.getMovieDetails(movieId, apiKey)
 
     suspend fun getMovieCredits(movieId: Int, apiKey: String) = retrofitService.getMovieCredits(movieId, apiKey)
+
+    suspend fun getVideoDetails(movieId: Int, apiKey: String) = retrofitService.getVideoDetails(movieId, apiKey)
 }

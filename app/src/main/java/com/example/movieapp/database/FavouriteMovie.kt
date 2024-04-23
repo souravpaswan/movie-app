@@ -14,5 +14,8 @@ data class FavouriteMovie(
     val movieName : String,
 
     @ColumnInfo(name = "movie_release")
-    val movieRelease : String
+    val movieRelease : String,
+
+    @ColumnInfo(name = "image_url")
+    val imageUrl: String
 )

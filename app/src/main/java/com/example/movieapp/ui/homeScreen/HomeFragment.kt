@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var favouriteMovieViewModel: FavouriteMovieViewModel
+    private lateinit var favRepository: FavouriteMovieRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
         mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[MainViewModel::class.java]
 
         val dao = FavouriteMovieDb.getInstance(requireActivity()).favouriteMovieDao
-        val favRepository = FavouriteMovieRepository(dao)
+        favRepository = FavouriteMovieRepository(dao)
         val factory = FavouriteMovieViewModelFactory(favRepository)
         favouriteMovieViewModel = ViewModelProvider(requireActivity(), factory)[FavouriteMovieViewModel::class.java]
 
@@ -79,17 +80,37 @@ class HomeFragment : Fragment() {
                                 findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
                             }
 
-                            override fun addToFavouriteOnClickListener(movieId: Int) {
-                                mainViewModel.currentMovieId.value = movieId
+                            override fun addToFavouriteOnClickListener(holder: MoviesListRVAdapter.MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String) {
+                                val favouriteMovie = FavouriteMovie(movieId, title, release, imageUrl)
                                 lifecycleScope.launch {
-                                    mainViewModel.getMovieDetails(movieId, APIConstants.API_KEY)
-                                }
-                                mainViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movieDetails ->
-                                    movieDetails?.let {
-                                        val favouriteMovie = FavouriteMovie(movieId, it.title, it.release_date)
+                                    val existingMovie = favRepository.getMovieById(favouriteMovie.movieId)
+                                    if (existingMovie != null) {
+                                        favouriteMovieViewModel.remove(favouriteMovie)
+                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_border_24)
+                                        favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer {
+                                            Toast.makeText(requireContext(), favouriteMovieViewModel.statusMessage.value, Toast.LENGTH_SHORT).show()
+                                        })
+                                    } else {
                                         favouriteMovieViewModel.insert(favouriteMovie)
+                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_red_24)
+                                        favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer {
+                                            Toast.makeText(requireContext(), favouriteMovieViewModel.statusMessage.value, Toast.LENGTH_SHORT).show()
+                                        })
                                     }
-                                })
+                                }
+                            }
+
+                            override fun addToFavouriteObserver(holder: MoviesListRVAdapter.MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String) {
+                                val favouriteMovie = FavouriteMovie(movieId, title, release, imageUrl)
+                                lifecycleScope.launch {
+                                    val existingMovie = favRepository.getMovieById(favouriteMovie.movieId)
+                                    if (existingMovie != null) {
+                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_red_24)
+                                    } else {
+                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_border_24)
+
+                                    }
+                                }
                             }
                         })
                     binding.progressBar.visibility = View.GONE

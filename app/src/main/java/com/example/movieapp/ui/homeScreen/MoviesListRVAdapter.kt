@@ -32,7 +32,8 @@ class MoviesListRVAdapter(
     interface MovieListRVAdapterClickListener {
         fun fetchGenre(genreIds: List<Int>): String
         fun movieOnClickListener(movieId: Int)
-        fun addToFavouriteOnClickListener(movieId: Int)
+        fun addToFavouriteOnClickListener(holder: MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String)
+        fun addToFavouriteObserver(holder: MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -56,11 +57,12 @@ class MoviesListRVAdapter(
             Glide.with(holder.moviePosterImageView)
                 .load(imageUrl)
                 .into(holder.moviePosterImageView)
+            movieListRVAdapterClickListener.addToFavouriteObserver(holder, movies[position].id, movies[position].title, movies[position].release_date, imageUrl)
             holder.moviePosterImageView.setOnClickListener {
                 movieListRVAdapterClickListener.movieOnClickListener(movies[position].id)
             }
             holder.addToFavouritesImageView.setOnClickListener {
-                movieListRVAdapterClickListener.addToFavouriteOnClickListener(movies[position].id)
+                movieListRVAdapterClickListener.addToFavouriteOnClickListener(holder, movies[position].id, movies[position].title, movies[position].release_date, imageUrl)
             }
         } else {
             Toast.makeText(holder.itemView.context, "No movies found", Toast.LENGTH_SHORT).show()

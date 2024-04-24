@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.data.MovieRepository
@@ -86,6 +88,9 @@ class SearchFragment : Fragment() {
         lifecycleScope.launch {
             searchMovie()
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.navigation_home)
+        }
     }
 
     suspend fun searchMovie(){
@@ -113,7 +118,17 @@ class SearchFragment : Fragment() {
                 mainViewModel.searchResult.observe(viewLifecycleOwner, Observer {
                     binding.searchResultRecyclerView.layoutManager =
                             LinearLayoutManager(requireContext())
-                    binding.searchResultRecyclerView.adapter = SearchResultsRVAdapter(it.results)
+                    binding.searchResultRecyclerView.adapter = SearchResultsRVAdapter(
+                        it.results,
+                        object : SearchResultsRVAdapter.SearchResultItemOnClickListener{
+                            override fun showSearchItemMovieDetails(movieId: Int) {
+                                Log.i("Retrofit", "Movie id variable $movieId")
+                                mainViewModel.currentMovieId.value = movieId
+                                Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
+                                findNavController().navigate(R.id.action_searchFragment_to_movieDetailsFragment2)
+                            }
+                        }
+                    )
                 })
             }
     }

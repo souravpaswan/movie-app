@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,7 +19,6 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentHomeBinding
 import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.database.FavouriteMovie
-import com.example.movieapp.database.FavouriteMovieDao
 import com.example.movieapp.database.FavouriteMovieDb
 import com.example.movieapp.database.FavouriteMovieRepository
 import com.example.movieapp.ui.favouritesScreen.FavouriteMovieViewModel
@@ -48,6 +49,18 @@ class HomeFragment : Fragment() {
         favRepository = FavouriteMovieRepository(dao)
         val factory = FavouriteMovieViewModelFactory(favRepository)
         favouriteMovieViewModel = ViewModelProvider(requireActivity(), factory)[FavouriteMovieViewModel::class.java]
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            AlertDialog.Builder(requireContext())
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    activity?.finish()
+                }
+                .setNegativeButton("No") { dialog, which ->
+                    //do nothing
+                }
+                .show()
+        }
 
         return binding.root
     }

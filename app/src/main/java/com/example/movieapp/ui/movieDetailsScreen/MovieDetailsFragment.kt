@@ -78,10 +78,10 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.getVideoDetails(mainViewModel.currentMovieId.value!!, APIConstants.API_KEY)
             mainViewModel.videoDetails.observe(viewLifecycleOwner, Observer {
-                for(i in 0..it.results.size){
-                    if(it.results[i].type.equals("Trailer", ignoreCase = true) ||
-                        it.results[i].type.equals("Teaser", ignoreCase = true)){
-                        trailerPath += it.results[i].key
+                for(x in it.results){
+                    if(x.type.equals("Trailer", ignoreCase = true) ||
+                        x.type.equals("Teaser", ignoreCase = true)){
+                        trailerPath += x.key
                         break
                     }
                 }

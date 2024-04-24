@@ -9,11 +9,16 @@ import com.example.movieapp.R
 import com.example.movieapp.model.SearchResult
 
 class SearchResultsRVAdapter(
-    private val searchResult: List<SearchResult>
+    private val searchResult: List<SearchResult>,
+    private val searchResultItemOnClickListener: SearchResultItemOnClickListener
 ) : RecyclerView.Adapter<SearchResultsRVAdapter.SearchViewHolder>() {
 
     inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val searchResultTextView: TextView = itemView.findViewById(R.id.searchResultTextView)
+    }
+
+    interface SearchResultItemOnClickListener{
+        fun showSearchItemMovieDetails(movieId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -30,6 +35,9 @@ class SearchResultsRVAdapter(
             holder.searchResultTextView.text = searchResult[position].original_title
         } else {
             holder.searchResultTextView.text = "No movies found!"
+        }
+        holder.searchResultTextView.setOnClickListener {
+            searchResultItemOnClickListener.showSearchItemMovieDetails(searchResult[position].id)
         }
     }
 }

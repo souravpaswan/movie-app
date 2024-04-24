@@ -57,7 +57,7 @@ class FavouritesFragment : Fragment() {
                         }
                     })
             } else{
-                Toast.makeText(requireContext(), "Emtpy", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
             }
         })
     }

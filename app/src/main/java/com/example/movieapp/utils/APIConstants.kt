@@ -9,6 +9,6 @@ object APIConstants {
     const val IMAGE_PATH = "https://image.tmdb.org/t/p/w500"
     const val MOVIE_CREDITS = "movie/{movie_id}/credits"
     const val VIDEO_DETAILS = "movie/{movie_id}/videos"
-    const val YOUTUBE_URL = "https://www.youtube.com/watch?v="
+    const val YOUTUBE_URL = "https://www.youtube.com/embed/"
     const val MOVIE_SEARCH = "search/movie"
 }

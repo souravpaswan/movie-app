@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -81,11 +82,17 @@ class MovieDetailsFragment : Fragment() {
                 for(x in it.results){
                     if(x.type.equals("Trailer", ignoreCase = true) ||
                         x.type.equals("Teaser", ignoreCase = true)){
-                        trailerPath += x.key
+                        trailerPath = x.key
                         break
                     }
                 }
                 Log.i("Retrofit", "Video key $trailerPath")
+                if(!trailerPath.isNullOrEmpty()) {
+                    binding.webView.settings.javaScriptEnabled = true
+                    val html =
+                        "<iframe width=\"100%\" height=\"100%\" src=\"${APIConstants.YOUTUBE_URL}$trailerPath\" frameborder=\"0\" allowfullscreen></iframe>"
+                    binding.webView.loadData(html, "text/html", "utf-8")
+                }
             })
         }
     }

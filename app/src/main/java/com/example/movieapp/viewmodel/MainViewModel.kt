@@ -7,10 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.movieapp.model.GenreResponse
 import com.example.movieapp.model.MovieList
 import com.example.movieapp.data.MovieRepository
-import com.example.movieapp.database.FavouriteMovieDao
-import com.example.movieapp.database.FavouriteMovieRepository
 import com.example.movieapp.model.CreditDetails
 import com.example.movieapp.model.MovieDetails
+import com.example.movieapp.model.SearchResponse
 import com.example.movieapp.model.VideoDetails
 
 class MainViewModel(private val repository: MovieRepository) : ViewModel() {
@@ -31,6 +30,9 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val _videoDetails = MutableLiveData<VideoDetails>()
     val videoDetails: LiveData<VideoDetails> get() = _videoDetails
+
+    private val _searchResult = MutableLiveData<SearchResponse>()
+    val searchResult: LiveData<SearchResponse> get() = _searchResult
 
     suspend fun getPopularMovies(apiKey: String) {
         val response = repository.getPopularMovies(apiKey)
@@ -87,6 +89,18 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
             response.body()?.let{
                 _videoDetails.postValue(it)
                 Log.i("Retrofit", "Video details = $it")
+            }
+        } else{
+            Log.i("Retrofit", "Error : ${response.errorBody()}")
+        }
+    }
+
+    suspend fun getSearchResults(query: String, apiKey: String){
+        val response = repository.searchMovie(query, apiKey)
+        if(response.isSuccessful){
+            response.body()?.let{
+                _searchResult.postValue(it)
+                Log.i("Retrofit", "Search results = $it")
             }
         } else{
             Log.i("Retrofit", "Error : ${response.errorBody()}")

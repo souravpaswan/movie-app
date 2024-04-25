@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.example.movieapp.R
 import com.example.movieapp.model.Movie
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
+import okhttp3.internal.wait
 
 class MoviesListRVAdapter(
     private val movies: List<Movie>,
@@ -28,18 +31,25 @@ class MoviesListRVAdapter(
         var movieRatingTextView: TextView? = null
         var movieGenreTextView: TextView? = null
         var addToFavouritesImageView: ImageView? = null
+        var listRVLayout: RelativeLayout? = null
+        var gridRVLayout: LinearLayout? = null
 
-        var gridPosterImageView1: ImageView? = null
-        var gridPosterImageView2: ImageView? = null
-        var gridMovieNameTextView1: TextView? = null
-        var gridMovieNameTextView2: TextView? = null
+        var gridTitleTextView: TextView? = null
+        var gridPosterImageView: ImageView? = null
+        var gridReleaseDateTextView: TextView? = null
+        var gridRatingTextView: TextView? = null
+        var gridGenreTextView: TextView? = null
+        var gridAddToFavouritesImageView: ImageView? = null
 
         init {
             if(mainViewModel.isGridView.value == true){
-                gridPosterImageView1 = itemView.findViewById(R.id.gridPosterImageView1)
-                gridPosterImageView2 = itemView.findViewById(R.id.gridPosterImageView2)
-                gridMovieNameTextView1 = itemView.findViewById(R.id.gridMovieNameTextView1)
-                gridMovieNameTextView2 = itemView.findViewById(R.id.gridMovieNameTextView2)
+                gridTitleTextView = itemView.findViewById(R.id.gridTitleTextView)
+                gridPosterImageView = itemView.findViewById(R.id.gridPosterImageView)
+                gridReleaseDateTextView = itemView.findViewById(R.id.gridReleaseDateTextView)
+                gridRatingTextView = itemView.findViewById(R.id.gridRatingTextView)
+                gridGenreTextView = itemView.findViewById(R.id.gridGenreTextView)
+                gridAddToFavouritesImageView = itemView.findViewById(R.id.gridAddToFavouritesImageView)
+                gridRVLayout = itemView.findViewById(R.id.moviesGridLinearLayout)
 
             } else{
                 movieTitleTextView = itemView.findViewById(R.id.movieTitleTextView)
@@ -48,6 +58,7 @@ class MoviesListRVAdapter(
                 movieRatingTextView = itemView.findViewById(R.id.movieRatingTextView)
                 movieGenreTextView = itemView.findViewById(R.id.movieGenreTextView)
                 addToFavouritesImageView = itemView.findViewById(R.id.addToFavouritesImageView)
+                listRVLayout = itemView.findViewById(R.id.moviesListRelativeLayout)
             }
         }
     }
@@ -65,7 +76,6 @@ class MoviesListRVAdapter(
         } else {
             LayoutInflater.from(parent.context).inflate(R.layout.movies_list, parent, false)
         }
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.movies_list, parent, false)
         return MovieViewHolder(view)
     }
 
@@ -76,22 +86,36 @@ class MoviesListRVAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         if (!movies.isNullOrEmpty()) {
             val imageUrl = APIConstants.IMAGE_PATH + movies[position].poster_path
+            val genres = movieListRVAdapterClickListener.fetchGenre(movies[position].genre_ids)
             if(mainViewModel.isGridView.value == true){
-                Glide.with(holder.gridPosterImageView1!!)
+                holder.gridTitleTextView?.text = movies[position].title
+                holder.gridReleaseDateTextView?.text = movies[position].release_date
+                holder.gridRatingTextView?.text =
+                    movies[position].vote_average.toString().substring(0, 3)
+
+                holder.gridGenreTextView?.text = genres
+                Glide.with(holder.gridPosterImageView!!)
                     .load(imageUrl)
-                    .into(holder.gridPosterImageView1!!)
+                    .into(holder.gridPosterImageView!!)
+                movieListRVAdapterClickListener.addToFavouriteObserver(holder, movies[position].id, movies[position].title, movies[position].release_date, imageUrl)
+                holder.gridRVLayout?.setOnClickListener {
+                    movieListRVAdapterClickListener.movieOnClickListener(movies[position].id)
+                }
+                holder.gridAddToFavouritesImageView?.setOnClickListener {
+                    movieListRVAdapterClickListener.addToFavouriteOnClickListener(holder, movies[position].id, movies[position].title, movies[position].release_date, imageUrl)
+                }
+
             } else {
                 holder.movieTitleTextView?.text = movies[position].title
                 holder.movieReleaseDateTextView?.text = movies[position].release_date
                 holder.movieRatingTextView?.text =
                     movies[position].vote_average.toString().substring(0, 3)
-                val genres = movieListRVAdapterClickListener.fetchGenre(movies[position].genre_ids)
                 holder.movieGenreTextView?.text = genres
                 Glide.with(holder.moviePosterImageView!!)
                     .load(imageUrl)
                     .into(holder.moviePosterImageView!!)
                 movieListRVAdapterClickListener.addToFavouriteObserver(holder, movies[position].id, movies[position].title, movies[position].release_date, imageUrl)
-                holder.moviePosterImageView?.setOnClickListener {
+                holder.listRVLayout?.setOnClickListener {
                     movieListRVAdapterClickListener.movieOnClickListener(movies[position].id)
                 }
                 holder.addToFavouritesImageView?.setOnClickListener {

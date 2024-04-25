@@ -9,5 +9,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.SettingsFragment">
 
+        <Switch
+            android:id="@+id/themeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Dark Mode"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

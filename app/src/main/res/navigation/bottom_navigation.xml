@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_favourites_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_navigation_favourites_to_movieDetailsFragment2"
+            app:destination="@id/movieDetailsFragment2" />
     </fragment>
     <fragment
         android:id="@+id/navigation_settings"

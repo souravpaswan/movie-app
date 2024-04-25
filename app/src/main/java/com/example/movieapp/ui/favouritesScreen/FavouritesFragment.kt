@@ -13,18 +13,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
+import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.database.FavouriteMovie
 import com.example.movieapp.database.FavouriteMovieDb
 import com.example.movieapp.database.FavouriteMovieRepository
 import com.example.movieapp.databinding.FragmentFavouritesBinding
 import com.example.movieapp.ui.homeScreen.MoviesListRVAdapter
 import com.example.movieapp.ui.movieDetailsScreen.MovieCastRVAdapter
+import com.example.movieapp.viewmodel.MainViewModel
+import com.example.movieapp.viewmodel.MainViewModelFactory
 
 class FavouritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavouritesBinding
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var favouriteMovieViewModel: FavouriteMovieViewModel
 
     override fun onCreateView(
@@ -32,6 +37,11 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false)
+
+        val repository = MovieRepository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        mainViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[MainViewModel::class.java]
+
         val dao = FavouriteMovieDb.getInstance(requireActivity()).favouriteMovieDao
         val favRepository = FavouriteMovieRepository(dao)
         val factory = FavouriteMovieViewModelFactory(favRepository)
@@ -51,9 +61,14 @@ class FavouritesFragment : Fragment() {
                         override fun removeFavouriteOnClickListener(id: Int, name: String, release: String, url: String) {
                             val favouriteMovie = FavouriteMovie(id, name, release, url)
                             favouriteMovieViewModel.remove(favouriteMovie)
-                            favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer {
-                                Toast.makeText(requireContext(), favouriteMovieViewModel.statusMessage.value, Toast.LENGTH_SHORT).show()
+                            favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer { message->
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                             })
+                        }
+
+                        override fun showFavouriteMovieDetailsOnClick(movieId: Int) {
+                            mainViewModel.currentMovieId.value = movieId
+                            findNavController().navigate(R.id.action_navigation_favourites_to_movieDetailsFragment2)
                         }
                     })
             } else{

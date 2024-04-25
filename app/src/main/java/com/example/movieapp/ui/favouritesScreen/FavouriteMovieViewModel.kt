@@ -32,7 +32,6 @@ class FavouriteMovieViewModel(private val repository: FavouriteMovieRepository):
             } else {
                 repository.insert(favouriteMovie)
                 _favouriteMovieDetails.postValue(favouriteMovie)
-                _statusMessage.postValue("Added to Favourites")
             }
         } catch (e: Exception) {
             Log.e("RoomDB", "Failed to insert movie", e)

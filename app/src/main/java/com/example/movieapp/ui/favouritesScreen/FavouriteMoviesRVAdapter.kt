@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +24,12 @@ class FavouriteMoviesRVAdapter(
         val favouriteMovieImageView: ImageView = itemView.findViewById(R.id.favouriteMovieImageView)
         val favouriteMovieReleaseTextView: TextView = itemView.findViewById(R.id.favouriteMovieReleaseTextView)
         val removeFavouriteButton: FloatingActionButton = itemView.findViewById(R.id.removeFavouriteButton)
+        val favListRVLayout: RelativeLayout = itemView.findViewById(R.id.favouriteListRelativeLayout)
     }
 
     interface FavouriteMoviesRVAdapterClickListener {
         fun removeFavouriteOnClickListener(id: Int, name: String, release: String, url: String)
+        fun showFavouriteMovieDetailsOnClick(movieId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteMovieViewHolder {
@@ -48,6 +51,9 @@ class FavouriteMoviesRVAdapter(
             holder.removeFavouriteButton.setOnClickListener {
                 favouriteMoviesRVAdapterClickListener.removeFavouriteOnClickListener(favourites[position].movieId,
                     favourites[position].movieName, favourites[position].movieRelease, favourites[position].imageUrl)
+            }
+            holder.favListRVLayout.setOnClickListener {
+                favouriteMoviesRVAdapterClickListener.showFavouriteMovieDetailsOnClick(favourites[position].movieId)
             }
         } else {
             Toast.makeText(holder.itemView.context, "No movies found", Toast.LENGTH_SHORT).show()

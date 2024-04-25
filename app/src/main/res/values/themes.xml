@@ -2,7 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MovieApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="colorOnPrimary">@color/design_default_color_background</item>
+        <!-- Add more color attributes if needed -->
     </style>
 
     <style name="Theme.MovieApp" parent="Base.Theme.MovieApp" />

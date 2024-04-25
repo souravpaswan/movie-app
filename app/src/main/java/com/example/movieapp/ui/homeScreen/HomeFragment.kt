@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentHomeBinding
@@ -81,8 +82,13 @@ class HomeFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 mainViewModel.popularMoviesLiveData.observe(viewLifecycleOwner, Observer {
                     if (it != null) {
-                        binding.movieListRecyclerView.layoutManager =
-                            LinearLayoutManager(requireContext())
+                        if (mainViewModel.isGridView.value == true) {
+                            binding.movieListRecyclerView.layoutManager =
+                                GridLayoutManager(requireContext(), 2)
+                        } else {
+                            binding.movieListRecyclerView.layoutManager =
+                                LinearLayoutManager(requireContext())
+                        }
                         binding.movieListRecyclerView.adapter = MoviesListRVAdapter(
                             it.results,
                             mainViewModel,
@@ -94,10 +100,7 @@ class HomeFragment : Fragment() {
                                 override fun movieOnClickListener(movieId: Int) {
                                     Log.i("Retrofit", "Movie id variable $movieId")
                                     mainViewModel.currentMovieId.value = movieId
-                                    Log.i(
-                                        "Retrofit",
-                                        "Movie id viewmodel ${mainViewModel.currentMovieId.value}"
-                                    )
+                                    Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
                                     findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
                                 }
 
@@ -116,27 +119,11 @@ class HomeFragment : Fragment() {
                                         if (existingMovie != null) {
                                             favouriteMovieViewModel.remove(favouriteMovie)
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
-                                            favouriteMovieViewModel.statusMessage.observe(
-                                                viewLifecycleOwner,
-                                                Observer {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        favouriteMovieViewModel.statusMessage.value,
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                })
+                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
                                         } else {
                                             favouriteMovieViewModel.insert(favouriteMovie)
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
-                                            favouriteMovieViewModel.statusMessage.observe(
-                                                viewLifecycleOwner,
-                                                Observer {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        favouriteMovieViewModel.statusMessage.value,
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                })
+                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
                                         }
                                     }
                                 }
@@ -155,8 +142,10 @@ class HomeFragment : Fragment() {
                                             favRepository.getMovieById(favouriteMovie.movieId)
                                         if (existingMovie != null) {
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
+                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
                                         } else {
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
+                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
                                         }
                                     }
                                 }

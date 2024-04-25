@@ -34,6 +34,8 @@ class MainViewModel(private val repository: MovieRepository) : ViewModel() {
     private val _searchResult = MutableLiveData<SearchResponse>()
     val searchResult: LiveData<SearchResponse> get() = _searchResult
 
+    var isGridView = MutableLiveData<Boolean>()
+
     suspend fun getPopularMovies(apiKey: String) {
         val response = repository.getPopularMovies(apiKey)
         if (response.isSuccessful) {

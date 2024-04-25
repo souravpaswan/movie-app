@@ -7,7 +7,7 @@
     android:layout_margin="10dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/gridPosterImageView1"
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:layout_marginStart="4dp"
@@ -17,7 +17,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/gridPosterImageView2"
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:layout_marginTop="2dp"
@@ -27,23 +27,23 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/gridMovieNameTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gridPosterImageView1" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/gridMovieNameTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="1dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="@+id/gridPosterImageView2"
+        app:layout_constraintTop_toBottomOf="@+id/gridPosterImageView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

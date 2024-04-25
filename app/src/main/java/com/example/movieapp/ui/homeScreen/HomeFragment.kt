@@ -26,7 +26,9 @@ import com.example.movieapp.ui.favouritesScreen.FavouriteMovieViewModelFactory
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
 import com.example.movieapp.viewmodel.MainViewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
@@ -61,79 +63,113 @@ class HomeFragment : Fragment() {
                 }
                 .show()
         }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        displayPopularMovies()
+        mainViewModel.isGridView.observe(viewLifecycleOwner, Observer {
+            displayPopularMovies()
+        })
     }
 
-    fun displayPopularMovies(){
+    fun displayPopularMovies() {
         binding.progressBar.visibility = View.VISIBLE
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             mainViewModel.getPopularMovies(APIConstants.API_KEY)
             mainViewModel.getGenres(APIConstants.API_KEY)
-            mainViewModel.popularMoviesLiveData.observe(viewLifecycleOwner, Observer {
-                if (it != null) {
-                    binding.movieListRecyclerView.layoutManager =
-                        LinearLayoutManager(requireContext())
-                    binding.movieListRecyclerView.adapter = MoviesListRVAdapter(
-                        it.results,
-                        object : MoviesListRVAdapter.MovieListRVAdapterClickListener{
-                            override fun fetchGenre(genreIds: List<Int>): String {
-                                return displayGenres(genreIds)
-                            }
+            withContext(Dispatchers.Main) {
+                mainViewModel.popularMoviesLiveData.observe(viewLifecycleOwner, Observer {
+                    if (it != null) {
+                        binding.movieListRecyclerView.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        binding.movieListRecyclerView.adapter = MoviesListRVAdapter(
+                            it.results,
+                            mainViewModel,
+                            object : MoviesListRVAdapter.MovieListRVAdapterClickListener {
+                                override fun fetchGenre(genreIds: List<Int>): String {
+                                    return displayGenres(genreIds)
+                                }
 
-                            override fun movieOnClickListener(movieId: Int) {
-                                Log.i("Retrofit", "Movie id variable $movieId")
-                                mainViewModel.currentMovieId.value = movieId
-                                Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
-                                findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
-                            }
+                                override fun movieOnClickListener(movieId: Int) {
+                                    Log.i("Retrofit", "Movie id variable $movieId")
+                                    mainViewModel.currentMovieId.value = movieId
+                                    Log.i(
+                                        "Retrofit",
+                                        "Movie id viewmodel ${mainViewModel.currentMovieId.value}"
+                                    )
+                                    findNavController().navigate(R.id.action_navigation_home_to_movieDetailsFragment2)
+                                }
 
-                            override fun addToFavouriteOnClickListener(holder: MoviesListRVAdapter.MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String) {
-                                val favouriteMovie = FavouriteMovie(movieId, title, release, imageUrl)
-                                lifecycleScope.launch {
-                                    val existingMovie = favRepository.getMovieById(favouriteMovie.movieId)
-                                    if (existingMovie != null) {
-                                        favouriteMovieViewModel.remove(favouriteMovie)
-                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_border_24)
-                                        favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer {
-                                            Toast.makeText(requireContext(), favouriteMovieViewModel.statusMessage.value, Toast.LENGTH_SHORT).show()
-                                        })
-                                    } else {
-                                        favouriteMovieViewModel.insert(favouriteMovie)
-                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_red_24)
-                                        favouriteMovieViewModel.statusMessage.observe(viewLifecycleOwner, Observer {
-                                            Toast.makeText(requireContext(), favouriteMovieViewModel.statusMessage.value, Toast.LENGTH_SHORT).show()
-                                        })
+                                override fun addToFavouriteOnClickListener(
+                                    holder: MoviesListRVAdapter.MovieViewHolder,
+                                    movieId: Int,
+                                    title: String,
+                                    release: String,
+                                    imageUrl: String
+                                ) {
+                                    val favouriteMovie =
+                                        FavouriteMovie(movieId, title, release, imageUrl)
+                                    lifecycleScope.launch {
+                                        val existingMovie =
+                                            favRepository.getMovieById(favouriteMovie.movieId)
+                                        if (existingMovie != null) {
+                                            favouriteMovieViewModel.remove(favouriteMovie)
+                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
+                                            favouriteMovieViewModel.statusMessage.observe(
+                                                viewLifecycleOwner,
+                                                Observer {
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        favouriteMovieViewModel.statusMessage.value,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                })
+                                        } else {
+                                            favouriteMovieViewModel.insert(favouriteMovie)
+                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
+                                            favouriteMovieViewModel.statusMessage.observe(
+                                                viewLifecycleOwner,
+                                                Observer {
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        favouriteMovieViewModel.statusMessage.value,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                })
+                                        }
                                     }
                                 }
-                            }
 
-                            override fun addToFavouriteObserver(holder: MoviesListRVAdapter.MovieViewHolder, movieId: Int, title: String, release: String, imageUrl: String) {
-                                val favouriteMovie = FavouriteMovie(movieId, title, release, imageUrl)
-                                lifecycleScope.launch {
-                                    val existingMovie = favRepository.getMovieById(favouriteMovie.movieId)
-                                    if (existingMovie != null) {
-                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_red_24)
-                                    } else {
-                                        holder.addToFavouritesImageView.setImageResource(R.drawable.baseline_favorite_border_24)
-
+                                override fun addToFavouriteObserver(
+                                    holder: MoviesListRVAdapter.MovieViewHolder,
+                                    movieId: Int,
+                                    title: String,
+                                    release: String,
+                                    imageUrl: String
+                                ) {
+                                    val favouriteMovie =
+                                        FavouriteMovie(movieId, title, release, imageUrl)
+                                    lifecycleScope.launch {
+                                        val existingMovie =
+                                            favRepository.getMovieById(favouriteMovie.movieId)
+                                        if (existingMovie != null) {
+                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
+                                        } else {
+                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
+                                        }
                                     }
                                 }
-                            }
-                        })
-                    binding.progressBar.visibility = View.GONE
-                } else {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.i("Retrofit", "HomeFragment else")
-                }
-            })
+                            })
+                        binding.progressBar.visibility = View.GONE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT)
+                            .show()
+                        Log.i("Retrofit", "HomeFragment else")
+                    }
+                })
+            }
         }
     }
 

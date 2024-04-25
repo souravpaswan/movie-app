@@ -4,19 +4,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.databinding.ActivityMainBinding
+import com.example.movieapp.viewmodel.MainViewModel
+import com.example.movieapp.viewmodel.MainViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val repository = MovieRepository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        mainViewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        mainViewModel.isGridView.value = false
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -27,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.movieDetailsFragment2, R.id.searchFragment -> navView.visibility = View.GONE
+                R.id.movieDetailsFragment2, R.id.searchFragment, R.id.videoPlayFragment -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
             when (destination.id) {
@@ -51,5 +62,17 @@ class MainActivity : AppCompatActivity() {
         binding.toolbarRoot.searchImageView.setOnClickListener {
             navController.navigate(R.id.searchFragment)
         }
+
+        binding.toolbarRoot.listToggleImageView.setOnClickListener {
+            mainViewModel.isGridView.value = mainViewModel.isGridView.value?.not()
+        }
+
+        mainViewModel.isGridView.observe(this, Observer {
+            if(it){
+                binding.toolbarRoot.listToggleImageView.setImageResource(R.drawable.outline_view_list_24)
+            } else{
+                binding.toolbarRoot.listToggleImageView.setImageResource(R.drawable.outline_grid_view_24)
+            }
+        })
     }
 }

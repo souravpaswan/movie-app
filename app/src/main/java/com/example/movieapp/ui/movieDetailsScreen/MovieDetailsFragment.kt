@@ -6,12 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
@@ -26,6 +25,8 @@ class MovieDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailsBinding
     private lateinit var mainViewModel: MainViewModel
+    private var trailerPath = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,14 +48,26 @@ class MovieDetailsFragment : Fragment() {
             mainViewModel.getMovieDetails(mainViewModel.currentMovieId.value ?: 0, APIConstants.API_KEY)
         }
         mainViewModel.movieDetails.observe(viewLifecycleOwner, Observer {
-            it.poster_path?.let { poster_path ->
-                val imageUrl = APIConstants.IMAGE_PATH + poster_path
+            it.poster_path?.let { posterPath ->
+                val imageUrl = APIConstants.IMAGE_PATH + posterPath
                 Glide.with(binding.movieDetailsPosterImageView)
                     .load(imageUrl)
                     .into(binding.movieDetailsPosterImageView)
-                Log.i("Retrofit", "Image url = $imageUrl")
+                Log.i("Retrofit", "Poster url = $imageUrl")
+            }
+            it.backdrop_path?.let{ backdropPath ->
+                val imageUrl = APIConstants.IMAGE_PATH + backdropPath
+                Glide.with(binding.trailerImageView)
+                    .load(imageUrl)
+                    .into(binding.trailerImageView)
+                Log.i("Retrofit", "Backgrop url = $imageUrl")
             }
         })
+        binding.floatingActionButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("videoUrl", trailerPath)
+            it.findNavController().navigate(R.id.action_movieDetailsFragment2_to_videoPlayFragment, bundle)
+        }
         getCastDetails()
         getVideoDetails()
     }
@@ -75,7 +88,6 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun getVideoDetails() {
-        var trailerPath =""
         lifecycleScope.launch {
             mainViewModel.getVideoDetails(mainViewModel.currentMovieId.value!!, APIConstants.API_KEY)
             mainViewModel.videoDetails.observe(viewLifecycleOwner, Observer {
@@ -87,12 +99,6 @@ class MovieDetailsFragment : Fragment() {
                     }
                 }
                 Log.i("Retrofit", "Video key $trailerPath")
-                if(!trailerPath.isNullOrEmpty()) {
-                    binding.webView.settings.javaScriptEnabled = true
-                    val html =
-                        "<iframe width=\"100%\" height=\"100%\" src=\"${APIConstants.YOUTUBE_URL}$trailerPath\" frameborder=\"0\" allowfullscreen></iframe>"
-                    binding.webView.loadData(html, "text/html", "utf-8")
-                }
             })
         }
     }

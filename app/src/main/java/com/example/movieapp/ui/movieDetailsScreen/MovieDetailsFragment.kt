@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.databinding.FragmentMovieDetailsBinding
+import com.example.movieapp.model.Genre
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
 import com.example.movieapp.viewmodel.MainViewModelFactory
@@ -62,6 +63,8 @@ class MovieDetailsFragment : Fragment() {
                     .into(binding.trailerImageView)
                 Log.i("Retrofit", "Backgrop url = $imageUrl")
             }
+            binding.movieDetailsRatingTextView.text = "Rating: " + it.vote_average.toString().substring(0,3)
+            binding.movieDetailsGenreTextView.text = "Genres: " + displayGenres(it.genres)
         })
         binding.floatingActionButton.setOnClickListener {
             val bundle = Bundle()
@@ -101,6 +104,14 @@ class MovieDetailsFragment : Fragment() {
                 Log.i("Retrofit", "Video key $trailerPath")
             })
         }
+    }
+
+    fun displayGenres(genres: List<Genre>) : String {
+        var movieGenres = ""
+        for(genre in genres){
+            movieGenres += genre.name + ", "
+        }
+        return movieGenres.substring(0, movieGenres.length - 2)
     }
 
     override fun onDestroyView() {

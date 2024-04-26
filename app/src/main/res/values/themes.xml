@@ -4,7 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/design_default_color_primary</item>
         <item name="colorOnPrimary">@color/design_default_color_background</item>
-        <item name="android:textColor">@color/black</item> <!-- Set text color for light mode -->
+        <item name="android:textColor">@color/black</item>
+
         <!-- Add more color attributes if needed -->
     </style>
 

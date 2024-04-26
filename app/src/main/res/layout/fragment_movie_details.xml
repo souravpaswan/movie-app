@@ -45,7 +45,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_margin="10dp"
             android:text="Cast"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.526"
@@ -121,7 +121,8 @@
                     android:id="@+id/movieReleaseDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
                     android:text="@{myViewModel.movieDetails.release_date}"
                     android:textSize="12sp" />
 
@@ -130,8 +131,8 @@
                     android:id="@+id/movieDetailsRatingTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="Rating"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="12sp" />
 
 
@@ -139,7 +140,8 @@
                     android:id="@+id/movieDetailsGenreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
                     android:text="Genres"
                     android:textSize="12sp" />
 
@@ -148,7 +150,8 @@
                     android:id="@+id/movieDetailsOverviewTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
                     android:text="@{myViewModel.movieDetails.overview}"
                     android:textSize="12sp" />
 

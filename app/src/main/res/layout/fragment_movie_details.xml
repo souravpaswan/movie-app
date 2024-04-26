@@ -47,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Cast"
-            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
@@ -115,7 +114,6 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="5dp"
                     android:text="@{myViewModel.movieDetails.title}"
-                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -125,7 +123,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@{myViewModel.movieDetails.release_date}"
-                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
 
@@ -135,7 +132,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="Rating"
-                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
 
@@ -145,7 +141,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="Genres"
-                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
 
@@ -155,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@{myViewModel.movieDetails.overview}"
-                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
             </LinearLayout>

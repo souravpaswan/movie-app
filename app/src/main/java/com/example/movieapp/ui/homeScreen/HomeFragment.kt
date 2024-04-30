@@ -2,6 +2,7 @@ package com.example.movieapp.ui.homeScreen
 
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,8 +119,17 @@ class HomeFragment : Fragment() {
                                             favRepository.getMovieById(favouriteMovie.movieId)
                                         if (existingMovie != null) {
                                             favouriteMovieViewModel.remove(favouriteMovie)
-                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
-                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
+                                            val typedValue = TypedValue()
+                                            val theme = holder.addToFavouritesImageView?.context?.theme
+                                            theme?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue, true)
+                                            val drawableResId = typedValue.resourceId
+                                            holder.addToFavouritesImageView?.setImageResource(drawableResId)
+
+                                            val typedValue2 = TypedValue()
+                                            val theme2 = holder.gridAddToFavouritesImageView?.context?.theme
+                                            theme2?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue2, true)
+                                            val drawableResId2 = typedValue.resourceId
+                                            holder.gridAddToFavouritesImageView?.setImageResource(drawableResId2)
                                         } else {
                                             favouriteMovieViewModel.insert(favouriteMovie)
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
@@ -144,8 +154,12 @@ class HomeFragment : Fragment() {
                                             holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
                                             holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_red_24)
                                         } else {
-                                            holder.addToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
-                                            holder.gridAddToFavouritesImageView?.setImageResource(R.drawable.baseline_favorite_border_24)
+                                            val typedValue = TypedValue()
+                                            val theme = holder.addToFavouritesImageView?.context?.theme
+                                            theme?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue, true)
+                                            val drawableResId = typedValue.resourceId
+                                            holder.addToFavouritesImageView?.setImageResource(drawableResId)
+                                            holder.gridAddToFavouritesImageView?.setImageResource(drawableResId)
                                         }
                                     }
                                 }

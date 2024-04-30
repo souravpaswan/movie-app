@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="toolbarTextColor" format="color" />
+    <attr name="releaseDateIconDrawable" format="reference"/>
+    <attr name="ratingIconDrawable" format="reference"/>
+    <attr name="genreIconDrawable" format="reference"/>
+    <attr name="addFavouriteIconDrawable" format="reference"/>
+</resources>

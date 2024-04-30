@@ -15,7 +15,7 @@
             android:fontFamily="@font/baskervville"
             android:gravity="center_vertical"
             android:text="TOP MOVIES"
-            android:textColor="@color/yellow"
+            android:textColor="?attr/toolbarTextColor"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

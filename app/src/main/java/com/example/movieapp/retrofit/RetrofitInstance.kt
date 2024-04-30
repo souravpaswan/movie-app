@@ -10,8 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitInstance {
 
     companion object {
-//        val BASE_URL = "https://api.themoviedb.org/3/"
-//        val API_KEY = "ce99ea84f89451260059c832125c6353"
 
         fun getRetrofitInstance(): Retrofit {
             val loggingInterceptor = HttpLoggingInterceptor().apply {

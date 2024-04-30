@@ -2,8 +2,9 @@ package com.example.movieapp.data
 
 import com.example.movieapp.retrofit.RetrofitInstance
 import com.example.movieapp.retrofit.RetrofitService
+import javax.inject.Inject
 
-class MovieRepository {
+class MovieRepository @Inject constructor(){
 
     private val retrofitService = RetrofitInstance.authService
 

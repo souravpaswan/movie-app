@@ -11,8 +11,9 @@ import com.example.movieapp.model.CreditDetails
 import com.example.movieapp.model.MovieDetails
 import com.example.movieapp.model.SearchResponse
 import com.example.movieapp.model.VideoDetails
+import javax.inject.Inject
 
-class MainViewModel(private val repository: MovieRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
 
     private val _popularMoviesLiveData = MutableLiveData<MovieList>()
     val popularMoviesLiveData: LiveData<MovieList> get() = _popularMoviesLiveData

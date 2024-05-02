@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/outline_grid_view_24" />
+            app:srcCompat="?attr/gridToggleIconDrawable" />
 
         <ImageView
             android:id="@+id/searchImageView"
@@ -44,7 +44,7 @@
             android:scaleType="centerInside"
             app:layout_constraintEnd_toStartOf="@+id/listToggleImageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/outline_search_24" />
+            app:srcCompat="?attr/searchIconDrawable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

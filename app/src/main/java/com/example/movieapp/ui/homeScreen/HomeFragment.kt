@@ -125,9 +125,8 @@ class HomeFragment : Fragment() {
                                             val drawableResId = typedValue.resourceId
                                             holder.addToFavouritesImageView?.setImageResource(drawableResId)
 
-                                            val typedValue2 = TypedValue()
                                             val theme2 = holder.gridAddToFavouritesImageView?.context?.theme
-                                            theme2?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue2, true)
+                                            theme2?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue, true)
                                             val drawableResId2 = typedValue.resourceId
                                             holder.gridAddToFavouritesImageView?.setImageResource(drawableResId2)
                                         } else {
@@ -159,7 +158,11 @@ class HomeFragment : Fragment() {
                                             theme?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue, true)
                                             val drawableResId = typedValue.resourceId
                                             holder.addToFavouritesImageView?.setImageResource(drawableResId)
-                                            holder.gridAddToFavouritesImageView?.setImageResource(drawableResId)
+
+                                            val theme2 = holder.gridAddToFavouritesImageView?.context?.theme
+                                            theme2?.resolveAttribute(R.attr.addFavouriteIconDrawable, typedValue, true)
+                                            val drawableResId2 = typedValue.resourceId
+                                            holder.gridAddToFavouritesImageView?.setImageResource(drawableResId2)
                                         }
                                     }
                                 }

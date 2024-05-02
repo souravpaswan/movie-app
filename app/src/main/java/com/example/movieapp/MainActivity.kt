@@ -1,6 +1,7 @@
 package com.example.movieapp
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -68,11 +69,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.isGridView.observe(this, Observer {
+            val typedValue = TypedValue()
+            val theme = binding.toolbarRoot.listToggleImageView.context.theme
             if(it){
-                binding.toolbarRoot.listToggleImageView.setImageResource(R.drawable.outline_view_list_24)
+                theme.resolveAttribute(R.attr.listToggleIconDrawable, typedValue, true)
             } else{
-                binding.toolbarRoot.listToggleImageView.setImageResource(R.drawable.outline_grid_view_24)
+                theme.resolveAttribute(R.attr.gridToggleIconDrawable, typedValue, true)
             }
+            val drawableResId = typedValue.resourceId
+            binding.toolbarRoot.listToggleImageView.setImageResource(drawableResId)
         })
     }
 }

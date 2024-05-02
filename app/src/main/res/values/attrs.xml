@@ -5,4 +5,7 @@
     <attr name="ratingIconDrawable" format="reference"/>
     <attr name="genreIconDrawable" format="reference"/>
     <attr name="addFavouriteIconDrawable" format="reference"/>
+    <attr name="searchIconDrawable" format="reference"/>
+    <attr name="gridToggleIconDrawable" format="reference"/>
+    <attr name="listToggleIconDrawable" format="reference"/>
 </resources>

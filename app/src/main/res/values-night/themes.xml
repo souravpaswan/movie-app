@@ -10,5 +10,8 @@
         <item name="ratingIconDrawable">@drawable/baseline_star_border_24</item>
         <item name="genreIconDrawable">@drawable/outline_category_24</item>
         <item name="addFavouriteIconDrawable">@drawable/baseline_favorite_border_24</item>
+        <item name="searchIconDrawable">@drawable/outline_search_24</item>
+        <item name="listToggleIconDrawable">@drawable/outline_view_list_24</item>
+        <item name="gridToggleIconDrawable">@drawable/outline_grid_view_24</item>
     </style>
 </resources>

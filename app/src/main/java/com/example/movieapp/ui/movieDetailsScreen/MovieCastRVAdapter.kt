@@ -33,10 +33,16 @@ class MovieCastRVAdapter(
     override fun onBindViewHolder(holder: CastViewHolder, position: Int) {
         if(!cast.isNullOrEmpty()) {
             holder.castMemberNameTextView.text = cast[position].name
-            val imageUrl = APIConstants.IMAGE_PATH + cast[position].profile_path
-            Glide.with(holder.castMemberImageView)
-                .load(imageUrl)
-                .into(holder.castMemberImageView)
+            if(cast[position].profile_path != null) {
+                val imageUrl = APIConstants.IMAGE_PATH + cast[position].profile_path
+                Glide.with(holder.castMemberImageView)
+                    .load(imageUrl)
+                    .into(holder.castMemberImageView)
+            } else{
+                Glide.with(holder.castMemberImageView)
+                    .load(R.drawable.no_image_placeholder)
+                    .into(holder.castMemberImageView)
+            }
         } else{
             Toast.makeText(holder.itemView.context, "Unable to fetch cast details!", Toast.LENGTH_SHORT).show()
         }

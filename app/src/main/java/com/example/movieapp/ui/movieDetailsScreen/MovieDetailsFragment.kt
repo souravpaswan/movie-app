@@ -43,7 +43,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.progressBar2.visibility = View.VISIBLE
+//        binding.progressBar2.visibility = View.VISIBLE
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             mainViewModel.getMovieDetails(mainViewModel.currentMovieId.value ?: 0, APIConstants.API_KEY)
@@ -66,11 +66,11 @@ class MovieDetailsFragment : Fragment() {
             binding.movieDetailsRatingTextView.text = "Rating: " + it.vote_average.toString().substring(0,3)
             binding.movieDetailsGenreTextView.text = "Genres: " + displayGenres(it.genres)
         })
-        binding.floatingActionButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("videoUrl", trailerPath)
-            it.findNavController().navigate(R.id.action_movieDetailsFragment2_to_videoPlayFragment, bundle)
-        }
+//        binding.floatingActionButton.setOnClickListener {
+//            val bundle = Bundle()
+//            bundle.putString("videoUrl", trailerPath)
+//            it.findNavController().navigate(R.id.action_movieDetailsFragment2_to_videoPlayFragment, bundle)
+//        }
         getCastDetails()
         getVideoDetails()
     }
@@ -87,7 +87,7 @@ class MovieDetailsFragment : Fragment() {
                 }
             })
         }
-        binding.progressBar2.visibility = View.GONE
+//        binding.progressBar2.visibility = View.GONE
     }
 
     private fun getVideoDetails() {

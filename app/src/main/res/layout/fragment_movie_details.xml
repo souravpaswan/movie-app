@@ -4,159 +4,164 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="myViewModel"
             type="com.example.movieapp.viewmodel.MainViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/movieDetailsPosterImageView"
-        app:layout_constraintStart_toStartOf="@+id/movieDetailsPosterImageView"
-        tools:context=".ui.movieDetailsScreen.MovieDetailsFragment">
+        android:layout_height="match_parent">
 
-
-        <ImageView
-            android:id="@+id/trailerImageView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            tools:context=".ui.movieDetailsScreen.MovieDetailsFragment">
 
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.469" />
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Cast"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+                <ImageView
+                    android:id="@+id/trailerImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/castMembersRecyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/movieDetailsPosterImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="150dp"
+                    android:layout_marginStart="10dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:backgroundTint="@android:color/transparent"
-            android:outlineProvider="none"
-            app:borderWidth="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/outline_play_circle_filled_24"
-            android:focusable="true" />
+                <LinearLayout
+                    android:id="@+id/movieDetailsLinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="210dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.526"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trailerImageView">
+                    <TextView
+                        android:id="@+id/movieTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@{myViewModel.movieDetails.title}"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/movieDetailsPosterImageView"
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_alignParentLeft="true"
-                tools:srcCompat="@tools:sample/avatars" />
+                    <TextView
+                        android:id="@+id/movieReleaseDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@{myViewModel.movieDetails.release_date}"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/movieDetailsRatingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/movieDetailsGenreTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Genres"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </FrameLayout>
 
             <LinearLayout
-                android:id="@+id/movieDetailsLinearLayout"
-                android:layout_width="wrap_content"
+                android:id="@+id/overviewLinearLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/movieDetailsPosterImageView"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
                 <TextView
-                    android:id="@+id/movieTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@{myViewModel.movieDetails.title}"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="OVERVIEW"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/movieReleaseDateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@{myViewModel.movieDetails.release_date}"
-                    android:textSize="12sp" />
-
-
-                <TextView
-                    android:id="@+id/movieDetailsRatingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="8dp"
-                    android:textSize="12sp" />
-
-
-                <TextView
-                    android:id="@+id/movieDetailsGenreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:text="Genres"
-                    android:textSize="12sp" />
-
 
                 <TextView
                     android:id="@+id/movieDetailsOverviewTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_margin="10dp"
                     android:text="@{myViewModel.movieDetails.overview}"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trailerLinearLayout"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/overviewLinearLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trailers"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/trailersRecycleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                app:layout_constraintTop_toBottomOf="@id/trailerLinearLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cast"
+                    android:textSize="16sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/castMembersRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </LinearLayout>
 
-        </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>

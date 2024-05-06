@@ -43,20 +43,30 @@ class MainActivity : AppCompatActivity() {
                 else -> navView.visibility = View.VISIBLE
             }
             when (destination.id) {
-                R.id.navigation_home -> binding.toolbarRoot.toolbarText.text =
-                    getString(R.string.top_movies)
+                R.id.navigation_home -> {
+                    binding.toolbarRoot.toolbarText.text = getString(R.string.top_movies)
+                    binding.toolbarRoot.listToggleImageView.visibility = View.VISIBLE
+                }
 
-                R.id.navigation_favourites -> binding.toolbarRoot.toolbarText.text =
-                    getString(R.string.favourites)
+                R.id.navigation_favourites -> {
+                    binding.toolbarRoot.toolbarText.text = getString(R.string.favourites)
+                    binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                }
 
-                R.id.navigation_settings -> binding.toolbarRoot.toolbarText.text =
-                    getString(R.string.settings)
+                R.id.navigation_settings -> {
+                    binding.toolbarRoot.toolbarText.text = getString(R.string.settings)
+                    binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                }
 
-                R.id.movieDetailsFragment2 -> binding.toolbarRoot.toolbarText.text =
-                    getString(R.string.movie_details)
+                R.id.movieDetailsFragment2 -> {
+                    binding.toolbarRoot.toolbarText.text = getString(R.string.movie_details)
+                    binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                }
 
-                R.id.searchFragment -> binding.toolbarRoot.toolbarText.text =
-                    getString(R.string.movie_search)
+                R.id.searchFragment -> {
+                    binding.toolbarRoot.toolbarText.text = getString(R.string.movie_search)
+                    binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                }
             }
         }
 

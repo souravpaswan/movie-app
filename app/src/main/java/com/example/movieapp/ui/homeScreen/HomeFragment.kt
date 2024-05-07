@@ -70,6 +70,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val swipeRefreshLayout = binding.swipeRefreshLayout
+
+        swipeRefreshLayout.setOnRefreshListener {
+            displayPopularMovies()
+            swipeRefreshLayout.isRefreshing = false
+        }
+
         mainViewModel.isGridView.observe(viewLifecycleOwner, Observer {
             displayPopularMovies()
         })

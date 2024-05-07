@@ -88,6 +88,7 @@ dependencies {
 
     implementation("com.google.dagger:dagger:2.51.1")
     kapt("com.google.dagger:dagger-compiler:2.51.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
 
     implementation(libs.androidx.core.ktx)

@@ -1,5 +1,6 @@
 package com.example.movieapp.ui.movieDetailsScreen
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +38,9 @@ class TrailersRVAdapter(
         if(!trailers.isNullOrEmpty()) {
             holder.trailerWebView.apply {
                 clearHistory()
-                loadData("", "text/html", "utf-8") // Load a blank page
+                loadData("", "text/html", "utf-8")
                 settings.javaScriptEnabled = true
+                setBackgroundColor(Color.TRANSPARENT) // for removing white background
                 val html =
                     "<iframe width=\"100%\" height=\"100%\" src=\"${APIConstants.YOUTUBE_URL}${trailers[position]}\" frameborder=\"0\" allowfullscreen></iframe>"
                 loadData(html, "text/html", "utf-8")

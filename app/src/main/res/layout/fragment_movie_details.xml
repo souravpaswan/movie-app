@@ -45,13 +45,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top" />
 
-                <ImageView
-                    android:id="@+id/movieDetailsPosterImageView"
-                    android:layout_width="100dp"
-                    android:layout_height="150dp"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/image_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="150dp"
-                    android:layout_marginStart="10dp"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    app:cardCornerRadius="5dp">
+
+                    <ImageView
+                        android:id="@+id/movieDetailsPosterImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginStart="10dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:id="@+id/movieDetailsLinearLayout"
@@ -131,18 +140,19 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/trailerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/trailerLinearLayout"
                 android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/overviewLinearLayout">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trailers"
                     android:layout_margin="10dp"
-                    android:textSize="16sp"/>
+                    android:text="Trailers"
+                    android:textSize="16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trailersRecycleView"

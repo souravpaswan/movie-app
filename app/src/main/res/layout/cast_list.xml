@@ -6,14 +6,23 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp">
 
-    <ImageView
-        android:id="@+id/castMemberImageView"
-        android:layout_width="110dp"
-        android:layout_height="140dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/image_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/castMemberImageView"
+            android:layout_width="110dp"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/castMemberNameTextView"
@@ -24,5 +33,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/castMemberImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/image_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

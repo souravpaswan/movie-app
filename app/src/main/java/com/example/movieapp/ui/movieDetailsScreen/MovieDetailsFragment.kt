@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
@@ -26,8 +25,7 @@ class MovieDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailsBinding
     private lateinit var mainViewModel: MainViewModel
-    private var trailerPath = ""
-
+    private val trailerPaths = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +41,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        binding.progressBar2.visibility = View.VISIBLE
+        binding.progressBar2.visibility = View.VISIBLE
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             mainViewModel.getMovieDetails(mainViewModel.currentMovieId.value ?: 0, APIConstants.API_KEY)
@@ -65,12 +63,8 @@ class MovieDetailsFragment : Fragment() {
             }
             binding.movieDetailsRatingTextView.text = "Rating: " + it.vote_average.toString().substring(0,3)
             binding.movieDetailsGenreTextView.text = "Genres: " + displayGenres(it.genres)
+            checkDataLoaded()
         })
-//        binding.floatingActionButton.setOnClickListener {
-//            val bundle = Bundle()
-//            bundle.putString("videoUrl", trailerPath)
-//            it.findNavController().navigate(R.id.action_movieDetailsFragment2_to_videoPlayFragment, bundle)
-//        }
         getCastDetails()
         getVideoDetails()
     }
@@ -85,23 +79,29 @@ class MovieDetailsFragment : Fragment() {
 
                     binding.castMembersRecyclerView.adapter = MovieCastRVAdapter(it.cast)
                 }
+                checkDataLoaded()
             })
         }
-//        binding.progressBar2.visibility = View.GONE
     }
 
     private fun getVideoDetails() {
         lifecycleScope.launch {
             mainViewModel.getVideoDetails(mainViewModel.currentMovieId.value!!, APIConstants.API_KEY)
             mainViewModel.videoDetails.observe(viewLifecycleOwner, Observer {
+                trailerPaths.clear()
                 for(x in it.results){
-                    if(x.type.equals("Trailer", ignoreCase = true) ||
-                        x.type.equals("Teaser", ignoreCase = true)){
-                        trailerPath = x.key
-                        break
+                    if(x.type.equals("Trailer", ignoreCase = true)) {
+                        trailerPaths.add(x.key)
                     }
                 }
-                Log.i("Retrofit", "Video key $trailerPath")
+                Log.i("Retrofit", "Video key $trailerPaths")
+                if(!trailerPaths.isNullOrEmpty()){
+                    binding.trailersRecycleView.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+                    binding.trailersRecycleView.adapter = TrailersRVAdapter(trailerPaths)
+                }
+                checkDataLoaded()
             })
         }
     }
@@ -117,5 +117,13 @@ class MovieDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Glide.with(this).clear(binding.movieDetailsPosterImageView)
+    }
+
+    private fun checkDataLoaded() {
+        if (mainViewModel.movieDetails.value != null &&
+            mainViewModel.creditDetails.value != null &&
+            mainViewModel.videoDetails.value != null) {
+            binding.progressBar2.visibility = View.GONE
+        }
     }
 }

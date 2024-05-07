@@ -46,26 +46,31 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.top_movies)
                     binding.toolbarRoot.listToggleImageView.visibility = View.VISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.VISIBLE
                 }
 
                 R.id.navigation_favourites -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.favourites)
                     binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.VISIBLE
                 }
 
                 R.id.navigation_settings -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.settings)
                     binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.VISIBLE
                 }
 
                 R.id.movieDetailsFragment2 -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.movie_details)
                     binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.INVISIBLE
                 }
 
                 R.id.searchFragment -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.movie_search)
                     binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.VISIBLE
                 }
             }
         }

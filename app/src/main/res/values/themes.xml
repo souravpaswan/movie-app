@@ -16,4 +16,12 @@
     </style>
 
     <style name="Theme.MovieApp" parent="Base.Theme.MovieApp" />
+
+    <style name="Theme.App.SplashSceren" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.MovieApp</item>
+    </style>
+
+
 </resources>

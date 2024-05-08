@@ -36,11 +36,7 @@
         android:id="@+id/movieDetailsFragment2"
         android:name="com.example.movieapp.ui.movieDetailsScreen.MovieDetailsFragment"
         android:label="fragment_movie_details"
-        tools:layout="@layout/fragment_movie_details" >
-        <action
-            android:id="@+id/action_movieDetailsFragment2_to_videoPlayFragment"
-            app:destination="@id/videoPlayFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_movie_details" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.movieapp.ui.searchScreen.SearchFragment"
@@ -50,9 +46,4 @@
             android:id="@+id/action_searchFragment_to_movieDetailsFragment2"
             app:destination="@id/movieDetailsFragment2" />
     </fragment>
-    <fragment
-        android:id="@+id/videoPlayFragment"
-        android:name="com.example.movieapp.ui.VideoPlayFragment"
-        android:label="fragment_video_play"
-        tools:layout="@layout/fragment_video_play" />
 </navigation>

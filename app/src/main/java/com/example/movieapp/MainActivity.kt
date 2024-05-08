@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.sleep(1000)
+        installSplashScreen()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val repository = MovieRepository()
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.movieDetailsFragment2, R.id.searchFragment, R.id.videoPlayFragment -> navView.visibility = View.GONE
+                R.id.movieDetailsFragment2, R.id.searchFragment -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
             when (destination.id) {

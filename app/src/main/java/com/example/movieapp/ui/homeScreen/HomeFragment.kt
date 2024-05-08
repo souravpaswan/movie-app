@@ -57,10 +57,10 @@ class HomeFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
                 .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes") { dialog, which ->
+                .setPositiveButton("Yes") { _, _ ->
                     activity?.finish()
                 }
-                .setNegativeButton("No") { dialog, which ->
+                .setNegativeButton("No") { _, _ ->
                     //do nothing
                 }
                 .show()

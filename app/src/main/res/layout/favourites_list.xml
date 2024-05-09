@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/favouriteListRelativeLayout"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/favouriteMovieImageView"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/favouriteMovieTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/favouriteMovieImageView"
+        android:layout_toStartOf="@id/removeFavouriteButton"/>
+
+    <TextView
+        android:id="@+id/favouriteMovieReleaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/favouriteMovieImageView"
+        android:layout_below="@id/favouriteMovieTitleTextView"
+        android:layout_toStartOf="@id/removeFavouriteButton"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/removeFavouriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@android:color/transparent"
+        android:outlineProvider="none"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/outline_delete_24"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
+</RelativeLayout>

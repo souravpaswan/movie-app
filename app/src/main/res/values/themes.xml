@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MovieApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="colorOnPrimary">@color/design_default_color_background</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="toolbarTextColor">@color/black</item>
+        <item name="releaseDateIconDrawable">@drawable/baseline_calendar_today_24</item>
+        <item name="ratingIconDrawable">@drawable/baseline_star_24</item>
+        <item name="genreIconDrawable">@drawable/baseline_category_24</item>
+        <item name="addFavouriteIconDrawable">@drawable/baseline_favorite_24</item>
+        <item name="searchIconDrawable">@drawable/baseline_search_24</item>
+        <item name="listToggleIconDrawable">@drawable/baseline_list_24</item>
+        <item name="gridToggleIconDrawable">@drawable/baseline_grid_view_24</item>
+    </style>
+
+    <style name="Theme.MovieApp" parent="Base.Theme.MovieApp" />
+
+    <style name="Theme.App.SplashSceren" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.MovieApp</item>
+    </style>
+
+
+</resources>

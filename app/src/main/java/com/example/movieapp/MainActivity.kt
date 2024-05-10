@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.searchFragment -> {
                     binding.toolbarRoot.toolbarText.text = getString(R.string.movie_search)
                     binding.toolbarRoot.listToggleImageView.visibility = View.INVISIBLE
-                    binding.toolbarRoot.searchImageView.visibility = View.VISIBLE
+                    binding.toolbarRoot.searchImageView.visibility = View.INVISIBLE
                 }
             }
         }

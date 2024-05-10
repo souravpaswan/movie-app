@@ -32,7 +32,7 @@ class MoviesListRVAdapter(
         var movieGenreTextView: TextView? = null
         var addToFavouritesImageView: ImageView? = null
         var listRVLayout: RelativeLayout? = null
-        var gridRVLayout: LinearLayout? = null
+        var gridRVLayout: RelativeLayout? = null
 
         var gridTitleTextView: TextView? = null
         var gridPosterImageView: ImageView? = null

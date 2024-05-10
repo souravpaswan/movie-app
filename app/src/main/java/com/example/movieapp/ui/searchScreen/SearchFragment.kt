@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.data.MovieRepository
@@ -98,6 +99,7 @@ class SearchFragment : Fragment() {
             .debounce(300)
             .filter { query ->
                 if (query.isEmpty()) {
+                    mainViewModel.getSearchResults(query, APIConstants.API_KEY)
                     return@filter false
                 } else {
                     return@filter true
@@ -112,23 +114,24 @@ class SearchFragment : Fragment() {
             }
             .flowOn(Dispatchers.Default)
             .collect { result ->
-                Log.i("Search", result)
                 mainViewModel.getSearchResults(result, APIConstants.API_KEY)
-                Log.i("Search", mainViewModel.searchResult.value.toString())
                 mainViewModel.searchResult.observe(viewLifecycleOwner, Observer {
-                    binding.searchResultRecyclerView.layoutManager =
-                            LinearLayoutManager(requireContext())
-                    binding.searchResultRecyclerView.adapter = SearchResultsRVAdapter(
-                        it.results,
-                        object : SearchResultsRVAdapter.SearchResultItemOnClickListener{
-                            override fun showSearchItemMovieDetails(movieId: Int) {
-                                Log.i("Retrofit", "Movie id variable $movieId")
-                                mainViewModel.currentMovieId.value = movieId
-                                Log.i("Retrofit", "Movie id viewmodel ${mainViewModel.currentMovieId.value}")
-                                findNavController().navigate(R.id.action_searchFragment_to_movieDetailsFragment2)
+                    if(it != null ) {
+                        binding.searchResultRecyclerView.layoutManager =
+                            GridLayoutManager(requireContext(), 2)
+                        binding.searchResultRecyclerView.adapter = SearchResultsRVAdapter(
+                            it.results,
+                            object : SearchResultsRVAdapter.SearchResultItemOnClickListener {
+                                override fun showSearchItemMovieDetails(movieId: Int) {
+                                    mainViewModel.currentMovieId.value = movieId
+                                    findNavController().navigate(R.id.action_searchFragment_to_movieDetailsFragment2)
+                                }
                             }
-                        }
-                    )
+                        )
+                        binding.searchResultTextView.visibility = View.GONE
+                    } else{
+                        binding.searchResultTextView.visibility = View.VISIBLE
+                    }
                 })
             }
     }

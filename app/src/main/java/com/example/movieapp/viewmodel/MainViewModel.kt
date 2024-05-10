@@ -109,4 +109,9 @@ class MainViewModel @Inject constructor(private val repository: MovieRepository)
             Log.i("Retrofit", "Error : ${response.errorBody()}")
         }
     }
+
+    suspend fun emptySearchResult(){
+        val obj = SearchResponse(1, emptyList(), 1, 1)
+        _searchResult.postValue(obj)
+    }
 }

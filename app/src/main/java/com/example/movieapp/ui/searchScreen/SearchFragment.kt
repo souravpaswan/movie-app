@@ -1,7 +1,6 @@
 package com.example.movieapp.ui.searchScreen
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +15,10 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.databinding.FragmentSearchBinding
+import com.example.movieapp.model.SearchResponse
 import com.example.movieapp.utils.APIConstants
 import com.example.movieapp.viewmodel.MainViewModel
 import com.example.movieapp.viewmodel.MainViewModelFactory
@@ -39,11 +38,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var searchResultsAdapter: SearchResultsRVAdapter
 
     internal class DebouncingQueryTextListener(
         lifecycle: Lifecycle,
@@ -86,11 +87,45 @@ class SearchFragment : Fragment() {
         binding.searchView.setOnClickListener {
             binding.searchView.isIconified = false
         }
+
+        binding.searchResultRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        searchResultsAdapter = SearchResultsRVAdapter(
+            emptyList(),
+            object : SearchResultsRVAdapter.SearchResultItemOnClickListener {
+                override fun showSearchItemMovieDetails(movieId: Int) {
+                    mainViewModel.currentMovieId.value = movieId
+                    findNavController().navigate(R.id.action_searchFragment_to_movieDetailsFragment2)
+                }
+            }
+        )
+        binding.searchResultRecyclerView.adapter = searchResultsAdapter
+
+        mainViewModel.searchResult.observe(viewLifecycleOwner, Observer { searchResult ->
+            lifecycleScope.launch {
+                updateSearchResults(searchResult)
+            }
+        })
+
         lifecycleScope.launch {
             searchMovie()
         }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(R.id.navigation_home)
+        }
+    }
+
+    private suspend fun updateSearchResults(searchResult: SearchResponse?) {
+        withContext(Dispatchers.Main) {
+            if (searchResult != null && searchResult.results.isNotEmpty()) {
+                binding.searchResultRecyclerView.visibility = View.VISIBLE
+                binding.searchResultTextView.visibility = View.GONE
+                searchResultsAdapter.searchResult = searchResult.results
+                searchResultsAdapter.notifyDataSetChanged()
+            } else {
+                binding.searchResultTextView.visibility = View.VISIBLE
+                binding.searchResultRecyclerView.visibility = View.GONE
+            }
         }
     }
 
@@ -99,7 +134,10 @@ class SearchFragment : Fragment() {
             .debounce(300)
             .filter { query ->
                 if (query.isEmpty()) {
-                    mainViewModel.getSearchResults(query, APIConstants.API_KEY)
+                    withContext(Dispatchers.Main) {
+                        binding.searchResultTextView.visibility = View.GONE
+                        binding.searchResultRecyclerView.visibility = View.GONE
+                    }
                     return@filter false
                 } else {
                     return@filter true
@@ -115,24 +153,7 @@ class SearchFragment : Fragment() {
             .flowOn(Dispatchers.Default)
             .collect { result ->
                 mainViewModel.getSearchResults(result, APIConstants.API_KEY)
-                mainViewModel.searchResult.observe(viewLifecycleOwner, Observer {
-                    if(it != null ) {
-                        binding.searchResultRecyclerView.layoutManager =
-                            GridLayoutManager(requireContext(), 2)
-                        binding.searchResultRecyclerView.adapter = SearchResultsRVAdapter(
-                            it.results,
-                            object : SearchResultsRVAdapter.SearchResultItemOnClickListener {
-                                override fun showSearchItemMovieDetails(movieId: Int) {
-                                    mainViewModel.currentMovieId.value = movieId
-                                    findNavController().navigate(R.id.action_searchFragment_to_movieDetailsFragment2)
-                                }
-                            }
-                        )
-                        binding.searchResultTextView.visibility = View.GONE
-                    } else{
-                        binding.searchResultTextView.visibility = View.VISIBLE
-                    }
-                })
+                binding.searchResultRecyclerView.visibility = View.VISIBLE
             }
     }
 

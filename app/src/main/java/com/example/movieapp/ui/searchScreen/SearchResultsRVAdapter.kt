@@ -13,7 +13,7 @@ import com.example.movieapp.model.SearchResult
 import com.example.movieapp.utils.APIConstants
 
 class SearchResultsRVAdapter(
-    private val searchResult: List<SearchResult>,
+    var searchResult: List<SearchResult>,
     private val searchResultItemOnClickListener: SearchResultItemOnClickListener
 ) : RecyclerView.Adapter<SearchResultsRVAdapter.SearchViewHolder>() {
 
